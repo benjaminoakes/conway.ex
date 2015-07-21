@@ -83,6 +83,17 @@ defmodule Conway.Grid do
       end)
     end)
   end
+
+  defp sum(accumulator, e) do
+    accumulator + e
+  end
+
+  def count_neighbors(grid, x, y) do
+    neighborhood = extract_neighborhood(grid, x, y)
+
+    List.flatten(neighborhood)
+      |> Enum.reduce(0, &sum/2)
+  end
 end
 
 defmodule Conway.Grid.TestSuite do
@@ -91,6 +102,8 @@ defmodule Conway.Grid.TestSuite do
 
   def run_all do
     test_extract_neighborhood
+    test_count_neighbors_given_empty
+    test_count_neighbors_given_full
     IO.puts(".")
   end
 
@@ -113,6 +126,22 @@ defmodule Conway.Grid.TestSuite do
     assert Grid.extract_neighborhood(grid, 3, 3) == [[1, 0, 0],
                                                      [0, 0, 0],
                                                      [0, 0, 0]]
+  end
+
+  def test_count_neighbors_given_empty do
+    grid = [[0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0]]
+
+    assert Grid.count_neighbors(grid, 1, 1) == 0
+  end
+
+  def test_count_neighbors_given_full do
+    grid = [[1, 1, 1],
+            [1, 1, 1],
+            [1, 1, 1]]
+
+    assert Grid.count_neighbors(grid, 1, 1) == 8
   end
 end
 
