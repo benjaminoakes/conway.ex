@@ -60,6 +60,8 @@ defmodule Conway.Cell.TestSuite do
 end
 
 defmodule Conway.Grid do
+  alias Conway.Cell
+
   def extract_neighborhood(grid, x, y) do
     Enum.map([-1, 0, +1], fn (displace_y) ->
       Enum.map([-1, 0, +1], fn (displace_x) ->
@@ -94,6 +96,17 @@ defmodule Conway.Grid do
     List.flatten(neighborhood)
       |> Enum.reduce(0, &sum/2)
   end
+
+  def next(grid) do
+    Enum.with_index(grid)
+      |> Enum.map(fn ({ row, y }) ->
+        Enum.with_index(row)
+        |> Enum.map(fn ({ cell, x }) ->
+          neighbor_count = count_neighbors(grid, x, y)
+          Cell.next(cell, neighbor_count)
+      end)
+    end)
+  end
 end
 
 defmodule Conway.Grid.TestSuite do
@@ -104,6 +117,7 @@ defmodule Conway.Grid.TestSuite do
     test_extract_neighborhood
     test_count_neighbors_given_empty
     test_count_neighbors_given_full
+    test_next
     IO.puts(".")
   end
 
@@ -142,6 +156,20 @@ defmodule Conway.Grid.TestSuite do
             [1, 1, 1]]
 
     assert Grid.count_neighbors(grid, 1, 1) == 8
+  end
+
+  def test_next do
+    grid = [[1, 0, 0, 0],
+            [0, 0, 0, 0],
+            [1, 0, 1, 0],
+            [0, 0, 0, 0]]
+
+    next = [[0, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0]]
+
+    assert Grid.next(grid) == next
   end
 end
 
