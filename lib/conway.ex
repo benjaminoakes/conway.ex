@@ -62,6 +62,20 @@ end
 defmodule Conway.Grid do
   alias Conway.Cell
 
+  def displayable(grid) do
+    Enum.map(grid, fn (row) ->
+      Enum.map(row, fn (cell) ->
+          if 1 == cell do
+            "•"
+          else
+            " "
+          end
+        end)
+        |> Enum.join("")
+      end)
+      |> Enum.join("\n")
+  end
+
   def extract_neighborhood(grid, x, y) do
     Enum.map([-1, 0, +1], fn (displace_y) ->
       Enum.map([-1, 0, +1], fn (displace_x) ->
@@ -118,6 +132,7 @@ defmodule Conway.Grid.TestSuite do
     test_count_neighbors_given_empty
     test_count_neighbors_given_full
     test_next
+    test_displayable
     IO.puts(".")
   end
 
@@ -170,6 +185,15 @@ defmodule Conway.Grid.TestSuite do
             [0, 0, 0, 0]]
 
     assert Grid.next(grid) == next
+  end
+
+  def test_displayable do
+    grid = [[1, 0, 0, 0],
+            [0, 0, 0, 0],
+            [1, 0, 1, 0],
+            [0, 0, 0, 0]]
+
+    assert Grid.displayable(grid) == "•   \n    \n• • \n    "
   end
 end
 
