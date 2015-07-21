@@ -16,6 +16,14 @@ defmodule U do
 end
 
 defmodule Conway.Cell do
+  def generate do
+    if :random.uniform > 0.5 do
+      1
+    else
+      0
+    end
+  end
+
   # Rules:
   #
   #   * Any live cell with fewer than two live neighbours dies, as if caused
@@ -61,6 +69,14 @@ end
 
 defmodule Conway.Grid do
   alias Conway.Cell
+
+  def generate(width, height) do
+    Enum.map(U.range(0, height), fn (_) ->
+      Enum.map(U.range(0, width), fn (_) ->
+        Cell.generate
+      end)
+    end)
+  end
 
   def displayable(grid) do
     Enum.map(grid, fn (row) ->
@@ -133,6 +149,7 @@ defmodule Conway.Grid.TestSuite do
     test_count_neighbors_given_full
     test_next
     test_displayable
+    test_generate
     IO.puts(".")
   end
 
@@ -195,7 +212,16 @@ defmodule Conway.Grid.TestSuite do
 
     assert Grid.displayable(grid) == "•   \n    \n• • \n    "
   end
+
+  # returns a randomly generated grid of the requested size
+  def test_generate do
+    grid = Grid.generate(8, 11)
+
+    assert length(grid) == 11
+    assert Enum.map(grid, &length/1) == [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8]
+  end
 end
 
 Conway.Cell.TestSuite.run_all
 Conway.Grid.TestSuite.run_all
+:random.seed(:os.timestamp)
