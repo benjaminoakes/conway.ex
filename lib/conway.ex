@@ -4,14 +4,7 @@ Code.require_file("cell.ex", "lib/conway")
 Code.require_file("cell_test_suite.ex", "lib/conway")
 Code.require_file("grid.ex", "lib/conway")
 Code.require_file("grid_test_suite.ex", "lib/conway")
-
-defmodule Conway.TestSuite do
-  def run_all do
-    Conway.Cell.TestSuite.run_all
-    Conway.Grid.TestSuite.run_all
-    IO.write("\n")
-  end
-end
+Code.require_file("test_suite.ex", "lib/conway")
 
 defmodule Conway.CLI do
   alias Conway.Grid
