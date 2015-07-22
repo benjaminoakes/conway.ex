@@ -236,24 +236,28 @@ defmodule Conway.Grid.TestSuite do
   end
 end
 
+defmodule Conway.TestSuite do
+  def run_all do
+    Conway.Cell.TestSuite.run_all
+    Conway.Grid.TestSuite.run_all
+    IO.write("\n")
+  end
+end
+
 defmodule Conway.CLI do
   alias Conway.Grid
 
-  def main(argv) do
-    Conway.Cell.TestSuite.run_all
-    Conway.Grid.TestSuite.run_all
-
+  def main(["--help"]), do: show_usage
+  def main(["--test"]), do: Conway.TestSuite.run_all
+  def main([_, _, _] = argv) do
     parsed = Enum.map(argv, fn (string) ->
       { integer, _ } = Integer.parse(string)
       integer
     end)
 
-    if 3 == length(parsed) do
-      start(parsed)
-    else
-      show_usage
-    end
+    start(parsed)
   end
+  def main(_), do: show_usage
 
   def start([ width, height, generations_count ]) do
     :random.seed(:os.timestamp)
@@ -270,7 +274,10 @@ defmodule Conway.CLI do
       "",
       "Runs a simulation of Conway's Game of Life",
       "",
-      "More information: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life"
+      "More information: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life",
+      "",
+      "    --help  Show this help text",
+      "    --test  Run automated tests"
     ]
 
     IO.puts(Enum.join(text, "\n"))
