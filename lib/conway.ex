@@ -24,6 +24,14 @@ defmodule Conway.Cell do
     end
   end
 
+  def displayable(cell) do
+    if 1 == cell do
+      "•"
+    else
+      " "
+    end
+  end
+
   # Rules:
   #
   #   * Any live cell with fewer than two live neighbours dies, as if caused
@@ -79,13 +87,7 @@ defmodule Conway.Grid do
 
   def displayable(grid) do
     Enum.map(grid, fn (row) ->
-      Enum.map(row, fn (cell) ->
-          if 1 == cell do
-            "•"
-          else
-            " "
-          end
-        end)
+      Enum.map(row, &Cell.displayable/1)
         |> Enum.join("")
       end)
       |> Enum.join("\n")
