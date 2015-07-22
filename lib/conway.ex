@@ -106,6 +106,7 @@ defmodule Conway.Grid do
         row  = U.nth(grid, y + displace_y)
         cell = U.nth(row,  x + displace_x)
 
+        # Makes count_neighbors a lot simpler
         if 0 == displace_x and 0 == displace_y do
           0
         else
