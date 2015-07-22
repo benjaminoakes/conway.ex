@@ -106,10 +106,11 @@ defmodule Conway.Grid do
   end
 
   def displayable(grid) do
-    Enum.map(grid, fn (row) ->
-        Enum.map(row, &Cell.displayable/1) |> Enum.join("")
-      end)
-      |> Enum.join("\n")
+    lines = Enum.map(grid, fn (row) ->
+      Enum.map(row, &Cell.displayable/1) |> Enum.join("")
+    end)
+
+    Enum.join(lines, "\n")
   end
 
   def extract_neighborhood(grid, x, y) do
