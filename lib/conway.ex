@@ -40,6 +40,14 @@ defmodule Conway.Cell do
     end
   end
 
+  def maybe(cell) do
+    if cell do
+      cell
+    else
+      0
+    end
+  end
+
   # Rules:
   #
   #   * Any live cell with fewer than two live neighbours dies, as if caused
@@ -110,11 +118,7 @@ defmodule Conway.Grid do
         if 0 == displace_x and 0 == displace_y do
           0
         else
-          if cell do
-            cell
-          else
-            0
-          end
+          Cell.maybe(cell)
         end
       end)
     end)
