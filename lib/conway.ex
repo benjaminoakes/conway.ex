@@ -11,6 +11,7 @@ defmodule U do
   def range(start, stop) when start + 1 == stop, do: [start]
   def range(start, stop),  do: [start | range(start + 1, stop)]
 
+  def nth(nil, _),              do: nil
   def nth(list, n) when n >= 0, do: Enum.at(list, n)
   def nth(_, n)    when n < 0,  do: nil
 
@@ -103,21 +104,16 @@ defmodule Conway.Grid do
     Enum.map([-1, 0, +1], fn (displace_y) ->
       Enum.map([-1, 0, +1], fn (displace_x) ->
         row = U.nth(grid, y + displace_y)
+        cell = U.nth(row, x + displace_x)
 
-        if row do
-          cell = U.nth(row, x + displace_x)
-
-          if 0 == displace_x and 0 == displace_y do
-            0
-          else
-            if cell do
-              cell
-            else
-              0
-            end
-          end
-        else
+        if 0 == displace_x and 0 == displace_y do
           0
+        else
+          if cell do
+            cell
+          else
+            0
+          end
         end
       end)
     end)
