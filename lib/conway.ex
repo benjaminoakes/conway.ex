@@ -103,8 +103,8 @@ defmodule Conway.Grid do
   def extract_neighborhood(grid, x, y) do
     Enum.map([-1, 0, +1], fn (displace_y) ->
       Enum.map([-1, 0, +1], fn (displace_x) ->
-        row = U.nth(grid, y + displace_y)
-        cell = U.nth(row, x + displace_x)
+        row  = U.nth(grid, y + displace_y)
+        cell = U.nth(row,  x + displace_x)
 
         if 0 == displace_x and 0 == displace_y do
           0
