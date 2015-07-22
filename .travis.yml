@@ -1,0 +1,4 @@
+language: elixir
+install:
+script:
+  - sh test.sh
