@@ -75,6 +75,7 @@ defmodule Conway.Cell.TestSuite do
   def run_all do
     test_next_follows_B3S23_rules_given_a_dead_cell
     test_next_follows_B3S23_rules_given_an_alive_cell
+    IO.write(".")
   end
 
   def test_next_follows_B3S23_rules_given_a_dead_cell do
@@ -163,6 +164,7 @@ defmodule Conway.Grid.TestSuite do
     test_next
     test_displayable
     test_generate
+    IO.write(".")
   end
 
   # extracts the neighborhood around a set of coordinates, treating edges and the center like dead cells
