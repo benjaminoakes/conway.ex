@@ -2,8 +2,8 @@
 set -o errexit
 set -x
 
-elixir lib/conway.ex --test
+bin/conway --test
 
-elixir lib/conway.ex
-elixir lib/conway.ex --help
-elixir lib/conway.ex 15 15 10
+bin/conway
+bin/conway --help
+bin/conway 15 15 10

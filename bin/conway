@@ -1,0 +1,3 @@
+#!/usr/bin/env elixir
+Code.require_file("conway.ex", "lib")
+Conway.CLI.main(System.argv)

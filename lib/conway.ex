@@ -6,5 +6,3 @@ Code.require_file("grid.ex", "lib/conway")
 Code.require_file("grid_test_suite.ex", "lib/conway")
 Code.require_file("test_suite.ex", "lib/conway")
 Code.require_file("cli.ex", "lib/conway")
-
-Conway.CLI.main(System.argv)
