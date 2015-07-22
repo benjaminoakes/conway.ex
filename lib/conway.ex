@@ -13,6 +13,13 @@ defmodule U do
 
   def nth(list, n) when n >= 0, do: Enum.at(list, n)
   def nth(_, n)    when n < 0,  do: nil
+
+  def map_with_index(list, callback) do
+    Enum.with_index(list)
+      |> Enum.map(fn ({ element, index }) ->
+        callback.(element, index)
+      end)
+  end
 end
 
 defmodule Conway.Cell do
@@ -128,12 +135,10 @@ defmodule Conway.Grid do
   end
 
   def next(grid) do
-    Enum.with_index(grid)
-      |> Enum.map(fn ({ row, y }) ->
-        Enum.with_index(row)
-        |> Enum.map(fn ({ cell, x }) ->
-          neighbor_count = count_neighbors(grid, x, y)
-          Cell.next(cell, neighbor_count)
+    U.map_with_index(grid, fn (row, y) ->
+      U.map_with_index(row, fn (cell, x) ->
+        neighbor_count = count_neighbors(grid, x, y)
+        Cell.next(cell, neighbor_count)
       end)
     end)
   end
