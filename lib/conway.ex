@@ -47,7 +47,6 @@ defmodule Conway.Cell.TestSuite do
   def run_all do
     test_next_follows_B3S23_rules_given_a_dead_cell
     test_next_follows_B3S23_rules_given_an_alive_cell
-    IO.puts(".")
   end
 
   def test_next_follows_B3S23_rules_given_a_dead_cell do
@@ -137,6 +136,13 @@ defmodule Conway.Grid do
       end)
     end)
   end
+
+  def step(_, 0, _) do end
+  def step(grid, generation, callback) do
+    new_grid = next(grid)
+    callback.(new_grid)
+    step(new_grid, generation - 1, callback)
+  end
 end
 
 defmodule Conway.Grid.TestSuite do
@@ -150,7 +156,6 @@ defmodule Conway.Grid.TestSuite do
     test_next
     test_displayable
     test_generate
-    IO.puts(".")
   end
 
   # extracts the neighborhood around a set of coordinates, treating edges and the center like dead cells
@@ -222,6 +227,45 @@ defmodule Conway.Grid.TestSuite do
   end
 end
 
-Conway.Cell.TestSuite.run_all
-Conway.Grid.TestSuite.run_all
-:random.seed(:os.timestamp)
+defmodule Conway.CLI do
+  alias Conway.Grid
+
+  def main(argv) do
+    Conway.Cell.TestSuite.run_all
+    Conway.Grid.TestSuite.run_all
+
+    parsed = Enum.map(argv, fn (string) ->
+      { integer, _ } = Integer.parse(string)
+      integer
+    end)
+
+    if 3 == length(parsed) do
+      start(parsed)
+    else
+      show_usage
+    end
+  end
+
+  def start([ width, height, generations_count ]) do
+    :random.seed(:os.timestamp)
+    initial_grid = Grid.generate(width, height)
+
+    Grid.step(initial_grid, generations_count, fn (grid) ->
+      IO.puts(Grid.displayable(grid))
+    end)
+  end
+
+  def show_usage do
+    text = [
+      "Usage: conway width height generations",
+      "",
+      "Runs a simulation of Conway's Game of Life",
+      "",
+      "More information: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life"
+    ]
+
+    IO.puts(Enum.join(text, "\n"))
+  end
+end
+
+Conway.CLI.main(System.argv)
