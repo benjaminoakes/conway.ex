@@ -21,6 +21,10 @@ defmodule U do
         callback.(element, index)
       end)
   end
+
+  def sum(list) do
+    Enum.reduce(list, 0, &+/2)
+  end
 end
 
 defmodule Conway.Cell do
@@ -124,15 +128,10 @@ defmodule Conway.Grid do
     end)
   end
 
-  defp sum(accumulator, e) do
-    accumulator + e
-  end
-
   def count_neighbors(grid, x, y) do
     neighborhood = extract_neighborhood(grid, x, y)
 
-    List.flatten(neighborhood)
-      |> Enum.reduce(0, &sum/2)
+    List.flatten(neighborhood) |> U.sum
   end
 
   def next(grid) do
