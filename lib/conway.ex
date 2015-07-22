@@ -1,3 +1,5 @@
+# TODO: apparently Elixir should do some autoloading magic, which isn't working
+# for me (hence the calls to Code.require_file/2)
 Code.require_file("u.ex", "lib")
 Code.require_file("test_helper.ex", "lib")
 Code.require_file("cell.ex", "lib/conway")
