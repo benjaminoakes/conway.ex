@@ -87,8 +87,7 @@ defmodule Conway.Grid do
 
   def displayable(grid) do
     Enum.map(grid, fn (row) ->
-      Enum.map(row, &Cell.displayable/1)
-        |> Enum.join("")
+        Enum.map(row, &Cell.displayable/1) |> Enum.join("")
       end)
       |> Enum.join("\n")
   end
