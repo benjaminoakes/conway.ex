@@ -1,4 +1,5 @@
 language: elixir
 install:
+  - echo "Skipping install step; see .travis.yml"
 script:
   - sh test.sh
