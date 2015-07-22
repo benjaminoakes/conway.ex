@@ -1,12 +1,5 @@
 Code.require_file("u.ex", "lib")
-
-defmodule TestHelper do
-  def assert(condition) do
-    if !condition do
-      raise "assert failed"
-    end
-  end
-end
+Code.require_file("test_helper.ex", "lib")
 
 defmodule Conway.Cell do
   def generate do
